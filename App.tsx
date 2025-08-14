@@ -1,3 +1,4 @@
+// App.tsx
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,12 +11,18 @@ import BottomDock from './src/components/BottomDock';
 import HomeScreen from './src/screens/Tabs/home_tab';
 import ReportsScreen from './src/screens/Tabs/report_tab';
 import { SplashScreen } from './src/screens/SplashScreen';
+import DistressThermometerScreen from './src/screens/Tabs/patients/components/assesment/components/DistressThermometerScreen';
+ 
+import EdmontonFactGScreen from './src/screens/Tabs/patients/components/assesment/components/EdmontonFactGScreen';
 
 // Stack type
 export type RootStackParamList = {
   Home: undefined;
   Patients: undefined;
   Reports: undefined;
+  DistressThermometerScreen: undefined;
+  HabitsBeliefsScreen: undefined;
+  EdmontonFactGScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -26,7 +33,7 @@ function App() {
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 3000);
-    return () => clearTimeout(timer); // cleanup
+    return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) {
@@ -35,10 +42,7 @@ function App() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView
-        edges={['top', 'bottom']}
-        style={{ flex: 1, backgroundColor: 'white' }}
-      >
+      <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: 'white' }}>
         <NavigationContainer
           onStateChange={(state) => {
             const routeName = state?.routes[state.index]?.name as keyof RootStackParamList;
@@ -56,6 +60,10 @@ function App() {
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Patients" component={PatientsScreen} />
               <Stack.Screen name="Reports" component={ReportsScreen} />
+              <Stack.Screen name="DistressThermometerScreen" component={DistressThermometerScreen} />
+              {/* Uncomment when ready */}
+              {/* <Stack.Screen name="HabitsBeliefsScreen" component={HabitsBeliefsScreen} /> */}
+              <Stack.Screen name="EdmontonFactGScreen" component={EdmontonFactGScreen} />
             </Stack.Navigator>
             <BottomDock activeScreen={currentRoute} />
           </View>
@@ -66,7 +74,6 @@ function App() {
 }
 
 export default App;
-
  
 
 

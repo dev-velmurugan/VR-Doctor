@@ -40,7 +40,7 @@ const computeScores = (answers: Record<string, number | null>): ScoreResults => 
   return { PWB, SWB, EWB, FWB, TOTAL };
 };
 
-export default function AssessmentTab() {
+export default function EdmontonFactGScreen() {
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
   const score: ScoreResults = useMemo(() => computeScores(answers), [answers]);
 
