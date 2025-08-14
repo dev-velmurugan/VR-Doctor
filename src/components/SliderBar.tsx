@@ -1,0 +1,20 @@
+
+import React, { useState } from 'react';
+import { View, LayoutChangeEvent, GestureResponderEvent, Pressable } from 'react-native';
+
+export default function SliderBar({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  const [w, setW] = useState(1);
+  const pct = Math.max(0, Math.min(1, value));
+  const onLayout = (e: LayoutChangeEvent) => setW(e.nativeEvent.layout.width);
+  const handlePress = (e: GestureResponderEvent) => {
+    const x = e.nativeEvent.locationX;
+    onChange(Math.max(0, Math.min(1, x / w)));
+  };
+  return (
+    <Pressable onPress={handlePress} onLayout={onLayout}>
+      <View className="h-2 rounded-full bg-[#e3eee9] border border-[#d7ebe3]">
+        <View style={{ width: `${pct * 100}%` }} className="h-full bg-[#0ea06c] rounded-full" />
+      </View>
+    </Pressable>
+  );
+}

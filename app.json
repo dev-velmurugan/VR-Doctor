@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "web": {
+      "bundler": "metro",
+      "userInterfaceStyle": "automatic"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7c0dc194-cf75-4d8d-9e66-45dbe23d4c85"
+      }
+    },
+    "android": {
+      "package": "com.velmurugana.vrqolnativewind"
+    }
+  }
+}
