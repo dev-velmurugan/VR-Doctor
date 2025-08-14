@@ -1,63 +1,86 @@
 import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 import "./global.css";
-// Screens and components
+
 import PatientsScreen from './src/screens/Tabs/patients/PatientAssessmentSplit';
 import BottomDock from './src/components/BottomDock';
 import HomeScreen from './src/screens/Tabs/home_tab';
 import ReportsScreen from './src/screens/Tabs/report_tab';
 import { SplashScreen } from './src/screens/SplashScreen';
+import Login from '@screens/Login';
+import PreVR from '@screens/PreVR';
+import PrePostVR from '@screens/PreAndPostVR';
+import PostVRAssessment from '@screens/PostVRAssessment';
+import PreAndPostVR from '@screens/PreAndPostVR';
 
-// Stack type
 export type RootStackParamList = {
+  Splash: undefined;
+  Login: undefined;
   Home: undefined;
   Patients: undefined;
   Reports: undefined;
+  PreVR:undefined;
+  PostVRAssessment:undefined;
+  PreAndPostVR:undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function App() {
-  const [currentRoute, setCurrentRoute] = useState<keyof RootStackParamList>('Home');
-  const [isLoading, setIsLoading] = useState(true);
-
+function Splash({ navigation }: any) {
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 3000);
-    return () => clearTimeout(timer); // cleanup
-  }, []);
+    const timer = setTimeout(() => {
+      navigation.replace('Login');
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [navigation]);
 
-  if (isLoading) {
-    return <SplashScreen />;
-  }
+  return <SplashScreen />;
+}
+
+export default function App() {
+  const [currentRoute, setCurrentRoute] = useState<keyof RootStackParamList>('Splash');
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView
-        edges={['top', 'bottom']}
-        style={{ flex: 1, backgroundColor: 'white' }}
-      >
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
         <NavigationContainer
           onStateChange={(state) => {
-            const routeName = state?.routes[state.index]?.name as keyof RootStackParamList;
-            if (routeName) setCurrentRoute(routeName);
+            const route = state?.routes[state.index];
+            const routeName = route?.name as keyof RootStackParamList;
+            setCurrentRoute(routeName);
           }}
         >
           <View style={{ flex: 1 }}>
             <Stack.Navigator
-              initialRouteName="Home"
-              screenOptions={{
-                headerShown: false,
-                contentStyle: { backgroundColor: 'white' },
-              }}
+              initialRouteName="Splash"
+              screenOptions={{ headerShown: false }}
             >
+              <Stack.Screen name="Splash" component={Splash} />
+              <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Patients" component={PatientsScreen} />
               <Stack.Screen name="Reports" component={ReportsScreen} />
+             <Stack.Screen 
+              name="PreVR" 
+              component={PreVR} 
+             options={{ headerShown: true, title: "Pre VR Form" }} 
+/>
+            <Stack.Screen 
+              name="PostVRAssessment" 
+              component={PostVRAssessment} 
+             options={{ headerShown: true, title: "Post VR Form" }} 
+/>
+           <Stack.Screen name="PreAndPostVR" component={PreAndPostVR}
+            options={{headerShown:true,title:"Pre & Post "}} />
             </Stack.Navigator>
-            <BottomDock activeScreen={currentRoute} />
+
+           
+            {['Home', 'Patients', 'Reports'].includes(currentRoute) && (
+              <BottomDock activeScreen={currentRoute} />
+            )}
           </View>
         </NavigationContainer>
       </SafeAreaView>
@@ -65,7 +88,6 @@ function App() {
   );
 }
 
-export default App;
 
  
 

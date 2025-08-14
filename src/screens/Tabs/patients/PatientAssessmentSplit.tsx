@@ -7,6 +7,7 @@ import InfoSection from './components/InfoSection';
 import AssessmentTab from './components/AssessmentTab';
 import VRTab from './components/VRTab';
 import OrientationTab from './components/OrientationTab';
+import VR from './pages/Vr';
 // import UpcomingTab from './components/UpcomingTab';
 
 const patients: Patient[] = [
@@ -35,7 +36,8 @@ export default function PatientAssessmentSplit() {
       case 'assessment':
         return <AssessmentTab />;
       case ' VR':
-        return <VRTab />;
+          return <VR patientId={sel?.id} />;
+
       case 'orientation':
         return <OrientationTab />;
       // case 'upcoming':
