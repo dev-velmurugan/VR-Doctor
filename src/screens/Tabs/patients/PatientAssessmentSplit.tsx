@@ -4,7 +4,7 @@ import ListItem, { Patient } from '../../../components/ListItem';
 import TabPills from '../../../components/TabPills';
 import BottomDock from '../../../components/BottomDock';
 import InfoSection from './components/InfoSection';
-import AssessmentTab from './components/AssessmentTab';
+import AssessmentTab from './components/assesment/AssessmentTab';
 import VRTab from './components/VRTab';
 import OrientationTab from './components/OrientationTab';
 import VR from './pages/Vr';
